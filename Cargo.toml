@@ -1,6 +1,6 @@
 [package]
 name = "rain-noise"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["johnf"]
 edition = "2018"
 description = "Plays rain white noise from the system tray"
