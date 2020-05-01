@@ -7,12 +7,13 @@ use std::{
     fs::File,
     io::{BufReader, ErrorKind, Write},
     path::PathBuf,
-    sync::atomic::{AtomicI32, Ordering},
+    sync::atomic::{AtomicBool, AtomicI32, Ordering},
     thread,
     time::Duration,
 };
 use systray::{Application, Error};
 
+static SINGLE: AtomicBool = AtomicBool::new(false);
 static CMD: AtomicI32 = AtomicI32::new(0);
 
 const RAW_RAIN: &'static [u8] = include_bytes!("../data/rain.mp3");
@@ -85,40 +86,43 @@ fn main() -> Result<(), Error> {
 }
 
 fn start_audio() {
-    thread::spawn(|| {
-        let device = rodio::default_output_device().unwrap();
-        let sink = Sink::new(&device);
+    if !SINGLE.load(Ordering::SeqCst) {
+        thread::spawn(|| {
+            let device = rodio::default_output_device().unwrap();
+            let sink = Sink::new(&device);
 
-        loop {
-            if sink.empty() {
-                let p: &str = &NOISE_PATH;
-                sink.append(Decoder::new(BufReader::new(File::open(p).unwrap())).unwrap());
-                println!("Added song to sink");
-            }
-            match CMD.load(Ordering::Relaxed) {
-                0 => {}
-                -1 => {
-                    CMD.store(0, Ordering::SeqCst);
-                    match sink.is_paused() {
-                        true => sink.play(),
-                        false => sink.pause(),
+            loop {
+                if sink.empty() {
+                    let p: &str = &NOISE_PATH;
+                    sink.append(Decoder::new(BufReader::new(File::open(p).unwrap())).unwrap());
+                    println!("Added song to sink");
+                }
+                match CMD.load(Ordering::Relaxed) {
+                    0 => {}
+                    -1 => {
+                        CMD.store(0, Ordering::SeqCst);
+                        match sink.is_paused() {
+                            true => sink.play(),
+                            false => sink.pause(),
+                        }
                     }
+                    50 => {
+                        CMD.store(0, Ordering::SeqCst);
+                        sink.set_volume(0.5);
+                    }
+                    100 => {
+                        CMD.store(0, Ordering::SeqCst);
+                        sink.set_volume(1.0);
+                    }
+                    200 => {
+                        CMD.store(0, Ordering::SeqCst);
+                        sink.set_volume(2.0);
+                    }
+                    _ => println!("Unknown command: {}", CMD.load(Ordering::Relaxed)),
                 }
-                50 => {
-                    CMD.store(0, Ordering::SeqCst);
-                    sink.set_volume(0.5);
-                }
-                100 => {
-                    CMD.store(0, Ordering::SeqCst);
-                    sink.set_volume(1.0);
-                }
-                200 => {
-                    CMD.store(0, Ordering::SeqCst);
-                    sink.set_volume(2.0);
-                }
-                _ => println!("Unknown command: {}", CMD.load(Ordering::Relaxed)),
+                thread::sleep(Duration::from_millis(250));
             }
-            thread::sleep(Duration::from_millis(250));
-        }
-    });
+        });
+        SINGLE.swap(true, Ordering::Relaxed);
+    }
 }
