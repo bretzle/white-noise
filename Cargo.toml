@@ -1,5 +1,5 @@
 [package]
-name = "noise"
+name = "rain-noise"
 version = "0.1.0"
 authors = ["johnf"]
 edition = "2018"

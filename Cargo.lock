@@ -647,16 +647,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "noise"
-version = "0.1.0"
-dependencies = [
- "lazy_static",
- "rodio",
- "systray",
- "tempdir",
-]
-
-[[package]]
 name = "nom"
 version = "4.2.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -763,6 +753,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4c1f4b0efa5fc5e8ceb705136bfee52cfdb6a4e3509f770b478cd6ed434232a7"
 dependencies = [
  "proc-macro2",
+]
+
+[[package]]
+name = "rain-noise"
+version = "0.1.0"
+dependencies = [
+ "lazy_static",
+ "rodio",
+ "systray",
+ "tempdir",
 ]
 
 [[package]]
