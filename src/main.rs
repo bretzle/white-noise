@@ -5,9 +5,8 @@ use rodio::{Decoder, Sink};
 use std::{
     env, fs,
     fs::File,
-    io::ErrorKind,
-    io::{BufReader, Write},
-    path::{Path, PathBuf},
+    io::{BufReader, ErrorKind, Write},
+    path::PathBuf,
     sync::atomic::{AtomicI32, Ordering},
     thread,
     time::Duration,
