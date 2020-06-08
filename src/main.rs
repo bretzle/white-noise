@@ -12,8 +12,7 @@ use anyhow::*;
 use app::Noise;
 use config::Config;
 use std::{
-	fs::File,
-	fs::{self},
+	fs::{self, File},
 	io::Write,
 	path::PathBuf,
 	sync::atomic::AtomicI32,
@@ -22,7 +21,7 @@ use std::{
 lazy_static! {
 	static ref HOME: PathBuf = home::home_dir().unwrap();
 	static ref ICON: String = {
-		let raw = include_bytes!("../data/rain.ico");
+		let raw = include_bytes!("../data/icon.ico");
 		String::from_utf8_lossy(raw).to_string()
 	};
 }
@@ -62,7 +61,7 @@ pub fn setup() -> Result<(Config, PathBuf)> {
 		Ok(_) => {}
 		Err(_) => {
 			// Icon does not exist
-			let raw_icon = include_bytes!("../data/rain.ico");
+			let raw_icon = include_bytes!("../data/icon.ico");
 			let mut file = File::create(icon_path.clone())?;
 			file.write_all(raw_icon)?;
 			file.sync_all()?;
