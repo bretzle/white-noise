@@ -9,7 +9,7 @@ pub fn create(icon: PathBuf) -> Result<Application> {
 	app.set_icon_from_file(&icon.to_string_lossy())?;
 
 	app.add_menu_item("Start", |_| {
-		start_audio();
+		CMD.store(1, Ordering::SeqCst);
 		Ok::<_, Error>(())
 	})?;
 

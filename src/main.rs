@@ -3,20 +3,21 @@
 #[macro_use]
 extern crate lazy_static;
 
+mod app;
 mod audio;
 mod config;
 mod tray;
 
 use anyhow::*;
+use app::Noise;
 use config::Config;
 use std::{
 	fs::File,
-	fs::{self, read_to_string},
+	fs::{self},
 	io::Write,
 	path::PathBuf,
-	sync::atomic::{AtomicI32, Ordering},
+	sync::atomic::AtomicI32,
 };
-use systray::{Application, Error};
 
 lazy_static! {
 	static ref HOME: PathBuf = home::home_dir().unwrap();
@@ -34,17 +35,14 @@ fn main() {
 	}
 }
 
+/// Runs the program
 fn run() -> Result<()> {
-	let (cfg, icon) = setup()?;
-	let mut app = tray::create(icon)?;
-
-	app.wait_for_message()?;
-
-	Ok(())
+	let mut app = Noise::new()?;
+	app.start()
 }
 
 /// Setups the application dir and config
-fn setup() -> Result<(Config, PathBuf)> {
+pub fn setup() -> Result<(Config, PathBuf)> {
 	let home: PathBuf = HOME.join(".noise");
 
 	// create the dir

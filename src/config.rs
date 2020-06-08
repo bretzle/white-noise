@@ -8,7 +8,7 @@ use std::{
 
 #[derive(Serialize, Deserialize)]
 pub struct Config {
-	sound: String,
+	pub sound: String,
 }
 
 impl Config {
