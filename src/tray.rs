@@ -1,4 +1,4 @@
-use crate::{audio::start_audio, CMD};
+use crate::CMD;
 use anyhow::*;
 use std::{path::PathBuf, sync::atomic::Ordering};
 use systray::{Application, Error};

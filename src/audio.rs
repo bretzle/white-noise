@@ -1,10 +1,10 @@
-use crate::{app::Noise, CMD};
+use crate::{app::Details, CMD};
 use rodio::{Decoder, Sink};
-use std::{fs::File, io::BufReader, path::PathBuf, sync::atomic::Ordering, thread, time::Duration};
+use std::{fs::File, io::BufReader, sync::atomic::Ordering, thread, time::Duration};
 
-pub fn start_audio(song: Option<PathBuf>) {
+pub fn start_audio(details: Details) {
 	thread::spawn(|| {
-		if song.is_none() {
+		if details.song.is_none() {
 			println!("You currently have no audio file setup.");
 			println!("You must add a path to a file in the config");
 			println!("{:?}", crate::HOME.join(".noise").join("config.toml"));
@@ -14,7 +14,7 @@ pub fn start_audio(song: Option<PathBuf>) {
 
 		let device = rodio::default_output_device().unwrap();
 		let sink = Sink::new(&device);
-		let file = File::open(song.unwrap()).unwrap();
+		let file = File::open(details.song.unwrap()).unwrap();
 
 		loop {
 			if sink.empty() {
@@ -25,7 +25,7 @@ pub fn start_audio(song: Option<PathBuf>) {
 			}
 			match CMD.load(Ordering::Relaxed) {
 				0 => {}
-				-2 => {
+				1 => {
 					CMD.store(0, Ordering::SeqCst);
 					sink.play();
 				}

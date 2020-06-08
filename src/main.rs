@@ -27,7 +27,7 @@ lazy_static! {
 	};
 }
 
-static CMD: AtomicI32 = AtomicI32::new(0);
+static CMD: AtomicI32 = AtomicI32::new(-1);
 
 fn main() {
 	if let Err(e) = run() {
