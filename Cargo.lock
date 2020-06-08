@@ -795,6 +795,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "rain-noise"
+version = "0.3.0"
+dependencies = [
+ "anyhow",
+ "home",
+ "lazy_static",
+ "rodio",
+ "serde",
+ "serde_derive",
+ "systray",
+ "toml",
+]
+
+[[package]]
 name = "regex"
 version = "1.3.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1002,20 +1016,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d011071ae14a2f6671d0b74080ae0cd8ebf3a6f8c9589a2cd45f23126fe29724"
 dependencies = [
  "libc",
-]
-
-[[package]]
-name = "whitenoise"
-version = "0.3.0"
-dependencies = [
- "anyhow",
- "home",
- "lazy_static",
- "rodio",
- "serde",
- "serde_derive",
- "systray",
- "toml",
 ]
 
 [[package]]
