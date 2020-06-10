@@ -1,10 +1,13 @@
 [package]
 name = "rain-noise"
-version = "0.3.0"
+version = "0.4.0"
 authors = ["johnf"]
 edition = "2018"
 description = "A white noise machine. Only works on windows."
 license = "MIT OR Apache-2.0"
+repository = "https://github.com/bretzle/white-noise"
+keywords = ["whitenoise", "white noise"]
+categories = ["command-line-utilities", "multimedia::audio"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

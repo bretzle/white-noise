@@ -21,6 +21,8 @@ fn run() -> Result<()> {
 	app.start()
 }
 
+/// Get's the user's home directory
+#[inline]
 pub fn home() -> PathBuf {
 	home::home_dir().unwrap()
 }

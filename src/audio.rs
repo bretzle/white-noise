@@ -7,10 +7,6 @@ static CMD: AtomicI32 = AtomicI32::new(-1);
 pub fn start_audio(song: Option<PathBuf>) {
 	thread::spawn(|| {
 		if song.is_none() {
-			println!("You currently have no audio file setup.");
-			println!("You must add a path to a file in the config");
-			println!("{:?}", crate::home().join(".noise").join("config.toml"));
-
 			std::process::exit(0);
 		}
 

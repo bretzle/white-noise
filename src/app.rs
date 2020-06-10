@@ -19,7 +19,6 @@ impl Noise {
 
 		let song = {
 			let song_path = home.join(cfg.sound.clone());
-			println!("{:?}", song_path);
 			match File::open(song_path.clone()) {
 				Ok(_) => Some(song_path),
 				Err(_) => None,
