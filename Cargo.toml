@@ -6,7 +6,7 @@ edition = "2018"
 description = "A white noise machine. Only works on windows."
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/bretzle/white-noise"
-keywords = ["whitenoise", "white noise"]
+keywords = ["whitenoise"]
 categories = ["command-line-utilities", "multimedia::audio"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
