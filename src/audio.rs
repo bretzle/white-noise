@@ -1,20 +1,22 @@
-use crate::{app::Details, CMD};
 use rodio::{Decoder, Sink};
-use std::{fs::File, io::BufReader, sync::atomic::Ordering, thread, time::Duration};
+use std::sync::atomic::AtomicI32;
+use std::{fs::File, io::BufReader, path::PathBuf, sync::atomic::Ordering, thread, time::Duration};
 
-pub fn start_audio(details: Details) {
+static CMD: AtomicI32 = AtomicI32::new(-1);
+
+pub fn start_audio(song: Option<PathBuf>) {
 	thread::spawn(|| {
-		if details.song.is_none() {
+		if song.is_none() {
 			println!("You currently have no audio file setup.");
 			println!("You must add a path to a file in the config");
-			println!("{:?}", crate::HOME.join(".noise").join("config.toml"));
+			println!("{:?}", crate::home().join(".noise").join("config.toml"));
 
 			std::process::exit(0);
 		}
 
 		let device = rodio::default_output_device().unwrap();
 		let sink = Sink::new(&device);
-		let file = File::open(details.song.unwrap()).unwrap();
+		let file = File::open(song.unwrap()).unwrap();
 
 		loop {
 			if sink.empty() {
@@ -53,4 +55,8 @@ pub fn start_audio(details: Details) {
 			thread::sleep(Duration::from_millis(250));
 		}
 	});
+}
+
+pub fn set_cmd(cmd: i32) {
+	CMD.store(cmd, Ordering::SeqCst);
 }

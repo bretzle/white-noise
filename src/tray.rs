@@ -1,6 +1,6 @@
-use crate::CMD;
+use crate::audio::set_cmd;
 use anyhow::*;
-use std::{path::PathBuf, sync::atomic::Ordering};
+use std::path::PathBuf;
 use systray::{Application, Error};
 
 /// Creates the system tray application
@@ -9,26 +9,26 @@ pub fn create(icon: PathBuf) -> Result<Application> {
 	app.set_icon_from_file(&icon.to_string_lossy())?;
 
 	app.add_menu_item("Start", |_| {
-		CMD.store(1, Ordering::SeqCst);
+		set_cmd(1);
 		Ok::<_, Error>(())
 	})?;
 
 	app.add_menu_item("Toggle", |_| {
-		CMD.store(-1, Ordering::SeqCst);
+		set_cmd(-1);
 		Ok::<_, Error>(())
 	})?;
 
 	app.add_menu_separator()?;
 	app.add_menu_item("Volume: 50%", |_| {
-		CMD.store(50, Ordering::SeqCst);
+		set_cmd(50);
 		Ok::<_, Error>(())
 	})?;
 	app.add_menu_item("Volume: 100%", |_| {
-		CMD.store(100, Ordering::SeqCst);
+		set_cmd(100);
 		Ok::<_, Error>(())
 	})?;
 	app.add_menu_item("Volume: 200%", |_| {
-		CMD.store(200, Ordering::SeqCst);
+		set_cmd(200);
 		Ok::<_, Error>(())
 	})?;
 	app.add_menu_separator()?;

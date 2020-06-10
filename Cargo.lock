@@ -800,7 +800,6 @@ version = "0.3.0"
 dependencies = [
  "anyhow",
  "home",
- "lazy_static",
  "rodio",
  "serde",
  "serde_derive",
