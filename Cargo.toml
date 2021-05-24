@@ -13,7 +13,7 @@ categories = ["command-line-utilities", "multimedia::audio"]
 
 [dependencies]
 systray = "0.4.0"
-rodio = "0.11.0"
+rodio = "0.14.0"
 home = "0.5.3"
 anyhow = "1.0.31"
 toml = "0.5.6"
